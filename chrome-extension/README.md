@@ -1,5 +1,4 @@
 # Quick dictionary
-
 - cd chrome-extension
 - yarn install
 - yarn build
@@ -13,4 +12,4 @@
 # Usage
 
 - Select a word and press CMD + X
-- ![Example](chrome-extension/images/example.png)
+- ![Example](images/example.png)

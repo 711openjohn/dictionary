@@ -1,0 +1,41 @@
+{
+    "manifest_version": 3,
+    "name": "Copy",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "permissions": [
+        "storage",
+        "notifications",
+        "contextMenus",
+        "activeTab",
+        "commands"
+    ],
+    "action": {
+        "default_popup": "index.html"
+    },
+    "commands": {
+        "copy": {
+            "suggested_key": {
+                "default": "Ctrl+X",
+                "mac": "Ctrl+X"
+            },
+            "description": "Copy"
+        }
+    },
+    "background": {
+        "service_worker": "background.ts"
+    },
+    "host_permissions": [
+        "http://localhost:8080/*"
+    ],
+    "content_scripts": [
+        {
+            "js": [
+                "content.ts"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
+}
