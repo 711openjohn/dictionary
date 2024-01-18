@@ -24,6 +24,22 @@ func (c *Cambridge) Lookup(word string, language string) (domain.DictionaryPage,
 	var dp domain.DictionaryPage
 	definitions := []domain.Definition{}
 	col := colly.NewCollector()
+	col.OnRequest(func(req *colly.Request) {
+		req.Headers.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+		req.Headers.Set("Accept-Language", "en-US,en;q=0.9,ja;q=0.8")
+		req.Headers.Set("Cache-Control", "no-cache")
+		req.Headers.Set("Connection", "keep-alive")
+		req.Headers.Set("Pragma", "no-cache")
+		req.Headers.Set("Referer", "https://dictionary.cambridge.org/dictionary/english-chinese-traditional/")
+		req.Headers.Set("Sec-Fetch-Dest", "document")
+		req.Headers.Set("Sec-Fetch-Mode", "navigate")
+		req.Headers.Set("Sec-Fetch-Site", "same-origin")
+		req.Headers.Set("Upgrade-Insecure-Requests", "1")
+		req.Headers.Set("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+		req.Headers.Set("sec-ch-ua", `"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"`)
+		req.Headers.Set("sec-ch-ua-mobile", "?0")
+		req.Headers.Set("sec-ch-ua-platform", `"macOS"`)
+	})
 	col.OnHTML(".pos-header .di-title", func(e *colly.HTMLElement) {
 		dp.Symbol = e.Text
 	})
@@ -62,5 +78,6 @@ func (c *Cambridge) Lookup(word string, language string) (domain.DictionaryPage,
 	})
 	col.Visit(fmt.Sprintf("https://dictionary.cambridge.org/dictionary/english-%v/%v", language, word))
 	dp.Definitions = definitions
+
 	return dp, nil
 }
